@@ -24,18 +24,6 @@ class="object_link">[Leaderboard](index.html "Leaderboard (class)")</span>,
 <span
 class="object_link">[ScoreCounter](index.html "ScoreCounter (class)")</span>
 
-## Constant Summary <span class="small"><a href="#" class="constants_summary_toggle">collapse</a></span>
-
-WIDTH =  
-``` code
-Window.width
-```
-
-HEIGHT =  
-``` code
-Window.height
-```
-
 # Class: Blok
 
 <div class="box_info">
