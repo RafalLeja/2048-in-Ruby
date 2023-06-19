@@ -60,8 +60,8 @@ classDiagram
  - [InputField](#inputfield)
  - [Grid](#grid)
  - [Block](#block)
- - [ScoreCounter](scorecounter)
- - [Leaderboard](leaderboard)
+ - [ScoreCounter](#scorecounter)
+ - [Leaderboard](#leaderboard)
 
 # SceneManager
 This class is responsible for switching between multiple Scenes
