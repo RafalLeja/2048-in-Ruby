@@ -1,11 +1,8 @@
-<div id="content">
-
-# Documentation by YARD 0.9.34
+# 2048
 
 <div id="readme">
 
-The Blok class is responsible for handling square blocks with numbers in
-a game. klasa odpowiedzialna za obsługę kwadracików z liczbami
+Documentation for "2048" in Ruby, by Rafał Leja, created using Mintlify (vscode extention), Yard and Pandoc.
 
 </div>
 
