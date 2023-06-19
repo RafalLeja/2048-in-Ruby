@@ -13,9 +13,11 @@ class ScoreCounter
 #   playerScore: The playerScore parameter is a variable that holds the score of the player in the
 # game. It is passed as an argument to the initialize method along with the grid and window
 # parameters.
-  def initialize(grid, window, playerScore)
+  def initialize(grid, playerScore, x: 0, y: 0, size: 20)
     @grid = grid
-    @window = window
+    @x = x
+    @y = y
+    @size = size
     @score = playerScore
   end
 
@@ -26,7 +28,7 @@ class ScoreCounter
     @score[1] = @grid.sum()
     @text = Text.new(
       "Score = " + @score[1].to_s,
-      x: @window.width * 0.1, y: @window.height * 0.1
+      x: @x, y: @y
     )
   end
 end

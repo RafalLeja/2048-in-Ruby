@@ -50,15 +50,21 @@ class Grid
     c = e.key.to_s
     if c == "w"
       up()
+      check(state)
+      randomize()
     elsif c == "s"
       down()
+      check(state)
+      randomize()
     elsif c == "d"
       right()
+      check(state)
+      randomize()
     elsif c == "a"
       left()
+      check(state)
+      randomize()
     end
-    check(state)
-    randomize()
   end
 
 ##

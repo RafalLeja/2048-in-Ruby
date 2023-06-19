@@ -4,8 +4,9 @@
 # `ScoreCounter`, and `Leaderboard`.
 require 'ruby2d'
 require_relative 'Scene'
+require_relative 'SceneManager'
 require_relative 'InputField'
-require_relative 'Blok'
+require_relative 'Block'
 require_relative 'Grid'
 require_relative 'ScoreCounter'
 require_relative 'Leaderboard'
@@ -22,21 +23,10 @@ set resizable: true
 set width: 960
 set height: 540
 
-WIDTH = Window.width
-HEIGHT = Window.height
-
 # This code block is checking if a file named "score" exists in the current directory. If it does, it
 # opens the file in read mode, reads its contents into a string variable `tmpStr`, and then uses the
 # `Marshal.load` method to deserialize the contents of `tmpStr` into a hash object `scoreTable`. If
 # the file does not exist, it creates a new hash object `scoreTable` with a default value of -1.
-if File.exists?("score")
-  scoreFile = File.open("score", "r")
-  tmpStr = scoreFile.read
-  scoreTable = Marshal.load(tmpStr)
-  scoreTable.default = -1
-else
-  scoreTable = Hash.new(-1)
-end
 
 playerScore = ["", 0]
 
@@ -47,63 +37,74 @@ playerScore = ["", 0]
 intro = Scene.new([
   Text.new( 
     "2048", 
-    x: WIDTH/2 - 70,
-    y: HEIGHT/14,
+    x: Window.width/2 - 70,
+    y: Window.height/14,
     size: 70
     ),
   Text.new( 
     "by Rafał Leja", 
-    x: WIDTH/2 - 35,
-    y: HEIGHT/5,
+    x: Window.width/2 - 35,
+    y: Window.height/5,
     size: 14
     ),
   Text.new(
     "Type in the player name:",
-    x: WIDTH/2 - 185,
-    y: HEIGHT/4,
+    x: Window.width/2 - 185,
+    y: Window.height/4,
     size: 35
     ),
     InputField.new( 
       text: playerScore,
-      x: WIDTH/2,
-      y: HEIGHT/2.5,
+      x: Window.width/2,
+      y: Window.height/2.5,
       size: 40
       ),
     Text.new(
       "Move blocks with w, a, s, d. The game ends when the board is full",
-      x: WIDTH/2 - 280,
-      y: HEIGHT*0.6,
+      x: Window.width/2 - 280,
+      y: Window.height*0.6,
       size: 20
       ),
     Text.new(
       "Press ENTER to start the game",
-      x: WIDTH/2 - 130,
-      y: HEIGHT*0.8,
+      x: Window.width/2 - 130,
+      y: Window.height*0.8,
       size: 20
       )
 ])
 
 game = Scene.new([
   grid = Grid.new(Window),
-  ScoreCounter.new(grid, Window, playerScore)
+  ScoreCounter.new(
+    grid,
+    playerScore,
+    x: Window.width/10,
+    y: Window.height/10,
+    size: 20
+  )
 ])
 
 finish = Scene.new([
   Text.new(
     "Leaderboard:",
-    x: WIDTH/2 - 130,
-    y: HEIGHT*0.05,
+    x: Window.width/2 - 130,
+    y: Window.height*0.05,
     size: 50
   ),
-  Leaderboard.new(playerScore, scoreTable, Window)
+  Leaderboard.new(
+    playerScore, 
+    x: Window.width*0.3,
+    y: Window.height*0.2,
+    size: 30
+    )
 ]) 
 
 
 # `state = [0]` is creating an array `state` with an initial value of 0. This array will be used to
 # store the game state in an array because unlike the `Int` class, the `Array` class is passed as a
 # pointer, which allows it to be changed in other classes.
-state = [0]
-scenes = [intro, game, finish]
+
+scenes = SceneManager.new([intro, game, finish])
 
 # This code block is setting up an event listener for the `:key_up` event, which is triggered when a
 # key is released on the keyboard. When this event is triggered, the code block calls the `event`
@@ -111,7 +112,7 @@ scenes = [intro, game, finish]
 # `state` array as arguments. This allows the scene object to handle the event and update the game
 # state accordingly.
 on :key_up do |event|
-  scenes[state[0]].event(event, state)
+  scenes.event(event)
 end
 
 # This code block is continuously updating the game window by clearing the previous frame (`clear`)
@@ -120,7 +121,7 @@ end
 # real-time.
 update do
   clear
-  scenes[state[0]].add()
+  scenes.add()
 end
 
 show

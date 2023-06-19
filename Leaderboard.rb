@@ -1,27 +1,27 @@
 # The Leaderboard class manages the saving and displaying of player scores in a game.
 class Leaderboard
-##
-# This is the initialization function for a class that takes in player score, score table, and window
-# as arguments and sets a saved flag to false.
-# 
-# Args:
-#   playerScore: This parameter is an integer value representing the score of the
-# player in a game or application.
-#   scoreTable: It is a variable that holds the table of scores for the game. It's
-# a hash that stores the scores of all the players who have played the game.
-#   window: The "window" parameter is a reference to the graphical user interface (GUI) window
-# that the game is being displayed in. It's an object representing the game window.
-  def initialize(playerScore, scoreTable, window)
+
+  def initialize(playerScore, x: 0, y: 0, size: 30)
     @playerScore = playerScore
-    @scoreTable = scoreTable
-    @window = window
+    @x = x
+    @y = y
+    @size = size
     @saved = false
+
+    if File.exists?("score")
+      scoreFile = File.open("score", "r")
+      tmpStr = scoreFile.read
+      @scoreTable = Marshal.load(tmpStr)
+      @scoreTable.default = -1
+    else
+      @scoreTable = Hash.new(-1)
+    end
+
   end
 
 ##
 # This function saves the player's score to a file and updates the score table.
   def save()
-    
     if @scoreTable[@playerScore[0]] == -1
       @scoreTable[@playerScore[0]] = @playerScore[1]  
     elsif @scoreTable[@playerScore[0]] < @playerScore[1]
@@ -52,9 +52,9 @@ class Leaderboard
     for i in 0..numberOfEntries do
       textTable.push(Text.new(
         (i+1).to_s + ". " + tmpArray[i][0] + ": " + tmpArray[i][1].to_s,
-        x: @window.width*0.3,
-        y: @window.height * 0.2 + i*(@window.height * 0.1),
-        size: 30
+        x: @x,
+        y: @y + i*2*@size,
+        size: @size
       ))
     end
   end
