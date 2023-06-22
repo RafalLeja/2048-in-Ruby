@@ -2,7 +2,12 @@
 A simple implementation of the famous game '2048' in Ruby using the [ruby2d](https://www.ruby2d.com/) library.
 
 # Running
-simply run main.rb with:
+install ruby2d:
+```
+gem install ruby2d
+```
+
+then simply run main.rb with:
 ```
 ruby main.rb
 ```
